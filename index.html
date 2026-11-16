@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>VALEN Research &amp; Analytics</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="fonts.css">
+<style>
+/* Layout: a lavender-white research "lab bench" — floating white instrument cards over a faint dot grid; one serif voice, one violet accent, gold only as hairline detail. Single light look by design. */
+:root{
+  --bg:#F8F7FC; --wash:#EFEBFA; --card:#FFFFFF; --ink:#1F1B30; --ink-2:#5C5772; --ink-3:#8C87A3;
+  --line:#E7E2F4; --violet:#6C58C7; --violet-2:#8E7FD8; --lilac:#C9C0F0; --lilac-2:#E4DEFA; --gold:#B8955A;
+  --ok:#2F7D62; --ok-bg:#E6F3EE; --prep:#8A6A2F; --prep-bg:#F6EEDF; --auth:#5B47B8; --auth-bg:#ECE8FB;
+  --serif:"Instrument Serif","Cormorant Garamond",Georgia,serif;
+  --sans:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r-lg:28px; --r-md:20px; --r-sm:12px;
+  --shadow:0 1px 2px rgba(40,30,90,.04),0 18px 50px -22px rgba(70,50,160,.28);
+  --shadow-hi:0 2px 4px rgba(40,30,90,.05),0 28px 70px -24px rgba(70,50,160,.38);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(248,247,252,.92)}
+a{color:var(--violet)}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+html[lang="es"] [data-l="en"],html[lang="en"] [data-l="es"]{display:none!important}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold)}
+.h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.6vw,54px);line-height:1.05;letter-spacing:-.01em}
+.h2 em{font-style:italic;color:var(--violet)}
+.lead{color:var(--ink-2);font-size:18px;max-width:62ch}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:600 15px var(--sans);padding:14px 22px;border-radius:999px;text-decoration:none;transition:transform .25s,box-shadow .25s,background .25s}
+.btn-primary{background:var(--ink);color:#fff;box-shadow:0 12px 30px -12px rgba(31,27,48,.55)}
+.btn-primary:hover{transform:translateY(-2px);background:#2b2545}
+.btn-ghost{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-ghost:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--lilac),var(--shadow)}
+.btn svg{width:16px;height:16px}
+
+/* Header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(248,247,252,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+header.top.scrolled{border-bottom-color:var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand svg{width:34px;height:34px;flex:none}
+.brand b{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:.06em;line-height:1}
+.brand small{display:block;white-space:nowrap;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-top:3px}
+nav.main{display:flex;align-items:center;gap:4px}
+nav.main button{background:none;border:0;cursor:pointer;font:500 14px var(--sans);color:var(--ink-2);padding:9px 12px;border-radius:999px;transition:background .2s,color .2s}
+nav.main button:hover{background:var(--wash);color:var(--ink)}
+.right{display:flex;align-items:center;gap:10px}
+.lang{display:inline-flex;padding:4px;border-radius:999px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.lang button{border:0;background:none;cursor:pointer;font:600 12px var(--mono);letter-spacing:.08em;color:var(--ink-3);padding:7px 12px;border-radius:999px;transition:all .25s}
+.lang button[aria-pressed="true"]{background:var(--violet);color:#fff;box-shadow:0 6px 14px -6px rgba(108,88,199,.7)}
+.menu-btn{display:none;border:0;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);width:42px;height:42px;border-radius:999px;cursor:pointer;align-items:center;justify-content:center}
+.menu-btn span{display:block;width:16px;height:1.5px;background:var(--ink);position:relative}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--ink)}
+.menu-btn span::before{top:-5px}.menu-btn span::after{top:5px}
+.mobile-nav{display:none}
+@media (max-width:900px){
+  nav.main{display:none}
+  .menu-btn{display:inline-flex}
+  .mobile-nav{display:grid;gap:4px;padding:0 0 16px}
+  .mobile-nav[hidden]{display:none}
+  .mobile-nav button{text-align:left;background:var(--card);border:0;box-shadow:inset 0 0 0 1px var(--line);border-radius:14px;padding:13px 16px;font:500 15px var(--sans);color:var(--ink);cursor:pointer}
+}
+
+/* Hero */
+.hero{position:relative;padding-block:64px 88px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(600px 380px at 82% 18%,rgba(201,192,240,.55),transparent 70%),
+  radial-gradient(520px 340px at 8% 92%,rgba(228,222,250,.9),transparent 70%),
+  radial-gradient(circle at 1px 1px,rgba(108,88,199,.13) 1px,transparent 1.4px) 0 0/26px 26px;
+  -webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,6vw,80px);line-height:1;letter-spacing:-.022em;margin:24px 0 26px}
+.hero h1 em{font-style:italic;background:linear-gradient(100deg,var(--violet),#A08BE6 60%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{font-size:19px;max-width:34em;line-height:1.65}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
+.chip{display:inline-flex;align-items:center;gap:8px;font:500 12.5px var(--sans);color:var(--ink-2);background:rgba(255,255,255,.75);box-shadow:inset 0 0 0 1px var(--line);padding:7px 12px;border-radius:999px}
+.chip i{width:6px;height:6px;border-radius:50%;background:var(--violet-2)}
+.stage{position:relative;min-height:440px}
+.panel{position:absolute;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow-hi)}
+.panel-main{inset:28px 18px 40px 0;padding:22px 22px 18px;display:flex;flex-direction:column}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.panel-title{font:600 14px var(--sans)}
+.panel-sub{font:500 11px var(--mono);letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;margin-top:2px}
+.seg{display:inline-flex;background:var(--wash);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;font:600 12px var(--sans);color:var(--ink-2);padding:6px 11px;border-radius:999px;cursor:pointer;transition:all .25s}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--violet);box-shadow:0 4px 12px -6px rgba(70,50,160,.5)}
+.chart{flex:1;min-height:0;margin-top:10px}
+.chart svg{width:100%;height:100%;display:block}
+.demo-tag{display:flex;align-items:center;gap:8px;font:500 11px var(--mono);color:var(--ink-3);letter-spacing:.04em}
+.demo-tag::before{content:"";width:8px;height:8px;border-radius:2px;background:repeating-linear-gradient(45deg,var(--lilac) 0 2px,transparent 2px 4px)}
+.float{position:absolute;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);box-shadow:var(--shadow);font-size:13px;animation:bob 7s ease-in-out infinite}
+.float b{display:block;font:600 13px var(--sans)}
+.float span{color:var(--ink-3);font-size:12px}
+.f1{right:-6px;top:0;animation-delay:-2s}
+.f2{left:-22px;bottom:4px;display:flex;align-items:center;gap:12px}
+.f2 .ring{width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--violet) 0 32%,var(--lilac) 0 64%,var(--lilac-2) 0);-webkit-mask:radial-gradient(circle,transparent 11px,#000 12px);mask:radial-gradient(circle,transparent 11px,#000 12px)}
+.langs{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;max-width:190px}
+.langs em{font:500 10.5px var(--mono);font-style:normal;color:var(--violet);background:var(--wash);padding:2px 6px;border-radius:6px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero .copy>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero .copy>*:nth-child(2){animation-delay:.08s}.hero .copy>*:nth-child(3){animation-delay:.16s}.hero .copy>*:nth-child(4){animation-delay:.24s}.hero .copy>*:nth-child(5){animation-delay:.32s}
+.stage{animation:rise 1.1s .2s cubic-bezier(.2,.7,.2,1) both}
+.draw{stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 2.2s .5s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (max-width:900px){
+  .hero{padding-block:36px 56px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .stage{min-height:380px}
+  .f2{left:0}
+}
+
+/* Sections */
+section.band{padding-block:112px}
+section.band.alt{background:linear-gradient(180deg,transparent,var(--wash) 18%,var(--wash) 82%,transparent)}
+.sec-head{display:grid;gap:18px;margin-bottom:56px;max-width:760px}
+@media (max-width:700px){section.band{padding-block:64px}.sec-head{margin-bottom:32px}}
+
+/* 30 seconds */
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.q{background:var(--card);border-radius:var(--r-md);padding:26px 24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;transition:transform .3s,box-shadow .3s}
+.q:hover{transform:translateY(-4px);box-shadow:var(--shadow-hi)}
+.q .k{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.q h3{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.08;letter-spacing:-.005em}
+.q p{color:var(--ink-2);font-size:15px}
+@media (max-width:980px){.quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.quick{grid-template-columns:1fr}}
+
+/* Research cards */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.rc{position:relative;background:var(--card);border-radius:var(--r-md);box-shadow:var(--shadow);overflow:hidden;transition:transform .35s,box-shadow .35s}
+.rc:hover{transform:translateY(-4px);box-shadow:var(--shadow-hi)}
+.rc button.t{all:unset;box-sizing:border-box;display:grid;grid-template-columns:52px 1fr 28px;gap:16px;align-items:center;width:100%;padding:22px;cursor:pointer}
+.rc button.t:focus-visible{outline:2px solid var(--violet);outline-offset:-4px;border-radius:var(--r-md)}
+.glyph{width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,var(--wash),#fff);box-shadow:inset 0 0 0 1px var(--line);display:grid;place-items:center}
+.glyph svg{width:28px;height:28px}
+.rc h3{font:600 17px var(--sans);letter-spacing:-.01em}
+.rc .q-line{color:var(--ink-3);font-size:13.5px;margin-top:2px;line-height:1.4}
+.plus{width:28px;height:28px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line);display:grid;place-items:center;transition:transform .35s,background .35s}
+.plus::before{content:"+";font:500 18px/1 var(--sans);color:var(--violet)}
+.rc[data-open="true"] .plus{transform:rotate(45deg);background:var(--wash)}
+.rc .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
+.rc[data-open="true"] .more{grid-template-rows:1fr}
+.rc .more>div{overflow:hidden}
+.rc .more p{padding:0 22px 22px;color:var(--ink-2);font-size:15px;border-top:1px solid var(--line);padding-top:16px;margin:0 22px 0;padding-left:0;padding-right:0}
+.rc .more .tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 22px 22px}
+.rc .more .tags em{font:500 11px var(--mono);font-style:normal;color:var(--violet);background:var(--wash);padding:3px 8px;border-radius:7px}
+@media (max-width:980px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.cards{grid-template-columns:1fr}}
+
+/* Methodology */
+.api-note{display:flex;gap:18px;align-items:flex-start;background:var(--card);border-radius:var(--r-md);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:28px}
+.api-note .dot{flex:none;width:40px;height:40px;border-radius:12px;background:var(--wash);display:grid;place-items:center;color:var(--violet)}
+.api-note p{color:var(--ink-2)}
+.api-note strong{color:var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;position:relative;margin-bottom:40px}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:31px;height:1px;background:linear-gradient(90deg,transparent,var(--lilac),var(--lilac),transparent)}
+.step{position:relative;text-align:left}
+.step .n{width:62px;height:62px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center;font-family:var(--serif);font-size:28px;color:var(--violet);margin-bottom:18px;position:relative}
+.step h3{font:600 17px var(--sans);margin-bottom:6px}
+.step p{color:var(--ink-2);font-size:15px}
+.step .freq{display:inline-block;margin-top:10px;font:500 11px var(--mono);letter-spacing:.06em;color:var(--violet);background:var(--card);box-shadow:inset 0 0 0 1px var(--line);padding:4px 9px;border-radius:999px}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}.steps::before{display:none}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+.acc{display:grid;gap:12px}
+details.ac{background:var(--card);border-radius:var(--r-md);box-shadow:var(--shadow);overflow:hidden}
+details.ac summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;font:600 16px var(--sans)}
+details.ac summary::-webkit-details-marker{display:none}
+details.ac summary::after{content:"";flex:none;width:10px;height:10px;border-right:1.5px solid var(--violet);border-bottom:1.5px solid var(--violet);transform:rotate(45deg) translateY(-3px);transition:transform .3s}
+details.ac[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
+details.ac .body{padding:0 24px 24px;color:var(--ink-2)}
+details.ac .body p+p{margin-top:12px}
+.methods{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.methods li{display:grid;grid-template-columns:minmax(150px,auto) 1fr;gap:14px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
+.methods li:first-child{border-top:0}
+.methods code{font:500 13px var(--mono);color:var(--violet);background:var(--wash);padding:3px 8px;border-radius:7px;justify-self:start}
+@media (max-width:560px){.methods li{grid-template-columns:1fr;gap:6px}}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fields .fb{background:var(--bg);border-radius:14px;padding:16px 18px}
+.fields h4{margin:0 0 8px;font:600 14px var(--sans);color:var(--ink)}
+.fields ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.fields li{font-size:12.5px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);padding:4px 9px;border-radius:999px;color:var(--ink-2)}
+@media (max-width:640px){.fields{grid-template-columns:1fr}}
+
+/* Status */
+.status{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.st{background:var(--card);border-radius:var(--r-md);box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;gap:16px}
+.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font:600 11.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 11px;border-radius:999px}
+.pill i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.p-ok{color:var(--ok);background:var(--ok-bg)}
+.p-prep{color:var(--prep);background:var(--prep-bg)}
+.p-auth{color:var(--auth);background:var(--auth-bg)}
+.st ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.st li{position:relative;padding-left:20px;color:var(--ink-2);font-size:15px}
+.st li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1px;background:var(--ink-3)}
+.policy-note{margin-top:22px;display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--ink-2);background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px var(--line);border-radius:16px;padding:16px 18px}
+.policy-note svg{flex:none;width:18px;height:18px;margin-top:3px;color:var(--gold)}
+@media (max-width:900px){.status{grid-template-columns:1fr}}
+
+/* Data & privacy */
+.priv{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pc{background:var(--card);border-radius:var(--r-md);box-shadow:var(--shadow);padding:20px}
+.pc h3{font:600 15.5px var(--sans);margin:12px 0 4px}
+.pc p{color:var(--ink-2);font-size:14px}
+.pc .ic{width:36px;height:36px;border-radius:11px;background:var(--wash);display:grid;place-items:center;color:var(--violet)}
+.pc .ic svg{width:18px;height:18px}
+.del{background:linear-gradient(160deg,#fff,var(--lilac-2));border-radius:var(--r-lg);box-shadow:var(--shadow-hi);padding:28px}
+.del h3{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.05;margin:10px 0 16px}
+.del ol{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:14px;counter-reset:d}
+.del li{counter-increment:d;display:grid;grid-template-columns:30px 1fr;gap:12px;color:var(--ink-2);font-size:15px}
+.del li::before{content:counter(d);width:30px;height:30px;border-radius:50%;background:var(--card);color:var(--violet);display:grid;place-items:center;font:600 13px var(--mono);box-shadow:0 4px 12px -6px rgba(70,50,160,.5)}
+.del .links{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:900px){.priv{grid-template-columns:1fr}}
+@media (max-width:520px){.pgrid{grid-template-columns:1fr}}
+
+/* Commitment */
+.commit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+.cm{padding:28px 24px;border-left:1px solid var(--line)}
+.cm:first-child{border-left:0}
+.cm h3{font-family:var(--serif);font-weight:400;font-size:25px;margin-bottom:8px}
+.cm p{color:var(--ink-2);font-size:14.5px}
+@media (max-width:900px){.commit{grid-template-columns:1fr 1fr}.cm:nth-child(3){border-left:0}.cm:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:540px){.commit{grid-template-columns:1fr}.cm{border-left:0;border-top:1px solid var(--line)}.cm:first-child{border-top:0}}
+
+/* About + contact */
+.ac2{display:grid;grid-template-columns:1.2fr .8fr;gap:22px}
+.about{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:36px}
+.about .h2{font-size:clamp(30px,3.6vw,42px);margin:14px 0 18px}
+.about p{color:var(--ink-2)}
+.about p+p{margin-top:12px}
+.about .fine{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-3)}
+.contact{border-radius:var(--r-lg);padding:36px;background:linear-gradient(155deg,#fff 10%,var(--lilac-2));color:var(--ink);box-shadow:var(--shadow-hi);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:16px}
+.contact::before{content:"";position:absolute;width:320px;height:320px;right:-120px;top:-120px;border-radius:50%;background:radial-gradient(circle,rgba(142,127,216,.55),transparent 70%)}
+.contact .eyebrow{color:var(--violet)}
+.contact h3{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1.05;position:relative}
+.contact p{color:var(--ink-2);font-size:15px;position:relative}
+.mail{position:relative;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.75);border:1px dashed var(--lilac);border-radius:14px;padding:14px 16px;font:500 13.5px var(--mono);color:var(--violet)}
+.mail i{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.mail .addr{user-select:all;overflow-wrap:anywhere}
+@media (max-width:520px){.mail{font-size:11.5px;padding:12px}}
+.mail-actions{position:relative;display:flex;flex-wrap:wrap;gap:10px}
+.mail-actions .btn{padding:12px 18px;font-size:14px}
+@media (max-width:900px){.ac2{grid-template-columns:1fr}.about,.contact{padding:28px}}
+
+/* Footer */
+footer{padding-block:48px 40px;border-top:1px solid var(--line);margin-top:40px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px}
+.foot p{color:var(--ink-3);font-size:13.5px;max-width:52ch}
+.foot h4{margin:0 0 10px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.foot a{color:var(--ink-2);text-decoration:none;font-size:14px}
+.foot a:hover{color:var(--violet)}
+@media (max-width:760px){.foot{grid-template-columns:1fr}}
+
+/* Legal views */
+.legal{padding-block:56px 40px}
+.legal-grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;align-items:start}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);display:grid;gap:4px}
+.toc button{all:unset;cursor:pointer;font-size:13.5px;color:var(--ink-2);padding:7px 12px;border-radius:10px}
+.toc button:hover{background:var(--wash);color:var(--ink)}
+.toc button:focus-visible{outline:2px solid var(--violet)}
+.back{display:flex;width:max-content;align-items:center;gap:8px;text-decoration:none;font:500 14px var(--sans);color:var(--ink-2);margin-bottom:22px}
+.back:hover{color:var(--violet)}
+.legal h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1;margin:14px 0 14px}
+.updated{font:500 12px var(--mono);color:var(--ink-3);letter-spacing:.06em}
+.lsec{background:var(--card);border-radius:var(--r-md);box-shadow:var(--shadow);padding:26px 28px;margin-top:16px;scroll-margin-top:110px}
+.lsec h2{font:600 18px var(--sans);display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+.lsec h2>span:first-child{font:500 12px var(--mono);color:var(--violet)}
+.lsec p,.lsec li{color:var(--ink-2);max-width:68ch}
+.lsec ul{margin:8px 0 0;padding-left:18px;display:grid;gap:8px}
+.lsec p+p{margin-top:10px}
+@media (max-width:860px){.legal-grid{grid-template-columns:1fr}.toc{display:none}}
+
+
+/* Isometric floating scene (illustration) */
+.stage{position:relative;min-height:540px;margin-bottom:24px}
+.iso{position:absolute;inset:-40px -90px 120px 50px;perspective:1600px;pointer-events:none}
+.plane{position:absolute;left:50%;top:46%;width:560px;height:420px;margin:-210px 0 0 -280px;transform:rotateX(54deg) rotateZ(-36deg);transform-style:preserve-3d}
+.isc{position:absolute;background:#fff;border-radius:18px;box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 30px 40px -18px rgba(80,60,170,.30),0 4px 10px rgba(80,60,170,.06);padding:14px 16px;font-size:11px;color:var(--ink-2);animation:lift 8s ease-in-out infinite}
+.isc b{display:block;font:600 12px var(--sans);color:var(--ink);margin-bottom:6px}
+.isc small{font:500 9.5px var(--mono);color:var(--ink-3);letter-spacing:.03em}
+.rail{left:-70px;top:40px;width:46px;height:330px;padding:12px 0;display:flex;flex-direction:column;align-items:center;gap:18px;animation-delay:-1s}
+.rail i{width:18px;height:18px;border-radius:6px;background:var(--wash)}
+.rail i.on{background:linear-gradient(145deg,var(--violet),var(--violet-2));border-radius:50%}
+.kpi{width:170px;top:0}
+.kpi .kd{float:left;width:22px;height:22px;border-radius:50%;background:var(--wash);margin:0 8px 0 0;box-shadow:inset 0 0 0 5px #fff,inset 0 0 0 11px var(--violet-2)}
+.k1{left:0;animation-delay:-2s}.k2{left:190px;animation-delay:-4s}.k3{left:380px;animation-delay:-6s}
+.bars-card{left:0;top:96px;width:260px;height:180px;animation-delay:-3s}
+.vb{display:flex;align-items:flex-end;gap:12px;height:120px;padding-top:6px}
+.vb i{flex:1;height:var(--h);border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,var(--violet-2),var(--lilac-2))}
+.funnel-card{left:280px;top:96px;width:280px;height:180px;animation-delay:-5s}
+.funnel-card svg{width:100%;height:96px;display:block}
+.fl{display:grid;grid-template-columns:repeat(4,1fr);margin-top:6px}
+.fl span{font:500 9.5px var(--mono);color:var(--violet)}
+@keyframes lift{0%,100%{transform:translateZ(0)}50%{transform:translateZ(14px)}}
+.panel-main{inset:auto 0 0 4%;height:290px;padding:20px 20px 16px}
+.f2{left:auto;right:-14px;bottom:268px;animation-delay:-3s}
+@media (max-width:900px){
+  .stage{min-height:500px}
+  .iso{inset:-20px -40px 130px -20px}
+  .plane{transform:rotateX(54deg) rotateZ(-36deg) scale(.72)}
+  .panel-main{inset:auto 0 0 0}
+  .f2{right:0;bottom:272px}
+}
+@media (max-width:480px){.plane{transform:rotateX(54deg) rotateZ(-36deg) scale(.56)}.iso{inset:-30px -60px 140px 10px}.stage{min-height:470px}}
+
+.rv.in{animation:nudge .9s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes nudge{from{transform:translateY(16px)}to{transform:none}}
+.q:nth-child(2).in,.rc:nth-child(3n+2).in,.step:nth-child(2).in,.st:nth-child(2).in,.cm:nth-child(2).in{animation-delay:.08s}
+.q:nth-child(3).in,.rc:nth-child(3n).in,.step:nth-child(3).in,.st:nth-child(3).in,.cm:nth-child(3).in{animation-delay:.16s}
+.q:nth-child(4).in,.step:nth-child(4).in,.cm:nth-child(4).in{animation-delay:.24s}
+/* Typography refinement (16 nov): same fonts, colors and structure */
+body{font-size:17px;line-height:1.7;font-feature-settings:"ss01","cv11";text-rendering:optimizeLegibility}
+p{text-wrap:pretty}
+.hero h1{font-size:clamp(46px,6.3vw,86px);line-height:.97;letter-spacing:-.028em}
+.hero h1 em,.h2 em,.about .h2 em{font-style:italic;letter-spacing:-.01em}
+.h2 em{color:var(--violet-2)}
+.h2{font-size:clamp(38px,4.9vw,60px);line-height:1.02;letter-spacing:-.018em}
+.sec-head{max-width:800px}
+.lead{font-size:18.5px;line-height:1.7;font-weight:400}
+.eyebrow{font-size:12.5px;letter-spacing:.18em}
+.brand b{font-size:27px;letter-spacing:.08em}
+.brand small{font-size:10.5px;letter-spacing:.22em}
+nav.main button{font:500 14.5px var(--sans);letter-spacing:.005em;padding:9px 13px}
+.lang button{font:600 13px var(--sans);letter-spacing:.06em;padding:7px 13px}
+.btn{font:600 15px var(--sans);letter-spacing:.005em;padding:14px 24px}
+.chip{font:500 13.5px var(--sans)}
+.q .k{font:700 12px var(--sans);letter-spacing:.14em}
+.q h3{font-size:29px;line-height:1.06}
+.q p{font-size:15.5px;line-height:1.65}
+.rc h3{font:600 17.5px var(--sans);letter-spacing:-.012em}
+.rc .q-line{font-size:14.5px;color:var(--ink-3)}
+.rc .more p{font-size:15.5px;line-height:1.65}
+.rc .more .tags em{font:500 12.5px var(--sans)}
+.api-note p{font-size:16px}
+.step .n{font-size:30px}
+.step h3{font:600 18px var(--sans);letter-spacing:-.01em}
+.step p{font-size:15.5px;line-height:1.65}
+.step .freq{font:600 12.5px var(--sans);letter-spacing:.02em}
+details.ac summary{font:600 16.5px var(--sans);letter-spacing:-.005em}
+details.ac .body{font-size:16px}
+.methods code{font-size:13.5px}
+.fields h4{font-size:15px}
+.fields li{font-size:13.5px}
+.pill{font:700 12px var(--sans);letter-spacing:.09em}
+.st li{font-size:15.5px;line-height:1.6}
+.policy-note{font-size:15px}
+.pc h3{font-size:16.5px}
+.pc p{font-size:14.5px;line-height:1.6}
+.del h3{font-size:34px;line-height:1.04;letter-spacing:-.01em}
+.del li{font-size:15.5px}
+.cm h3{font-size:27px;letter-spacing:-.008em}
+.cm p{font-size:15px;line-height:1.65}
+.about p{font-size:16.5px}
+.contact h3{font-size:42px;letter-spacing:-.012em}
+.contact p{font-size:15.5px}
+.mail{font-size:14px}
+.foot h4{font:700 12px var(--sans);letter-spacing:.14em}
+.foot a{font-size:14.5px}
+.foot p{font-size:14px;line-height:1.65}
+.panel-sub{font-size:11.5px}
+.demo-tag{font-size:12px}
+.updated{font-size:12.5px}
+.lsec h2{font-size:19px;letter-spacing:-.01em}
+.lsec h2>span:first-child{font-size:12.5px}
+.lsec p,.lsec li{font-size:16px;line-height:1.7}
+.toc button{font-size:14px}
+.legal h1{letter-spacing:-.022em}
+@media (max-width:700px){
+  body{font-size:16.5px}
+  .hero h1{font-size:clamp(42px,11.5vw,56px);line-height:1}
+  .h2{font-size:clamp(34px,9.4vw,44px);line-height:1.04}
+  .lead,.hero .lead{font-size:17px}
+  .q h3{font-size:27px}
+  .del h3{font-size:30px}
+  .contact h3{font-size:36px}
+  .mobile-nav button{font-size:16px}
+  .eyebrow{font-size:12px;letter-spacing:.14em}
+}
+@media (max-width:520px){.mail{font-size:12px}}
+
+/* Editorial & tech details (16 nov): subtle, same palette and structure */
+:root{--shadow:0 0 0 1px rgba(60,45,130,.045),0 1px 2px rgba(40,30,90,.04),0 18px 50px -22px rgba(70,50,160,.26);
+  --shadow-hi:0 0 0 1px rgba(60,45,130,.06),0 2px 4px rgba(40,30,90,.05),0 28px 70px -24px rgba(70,50,160,.36)}
+::selection{background:var(--lilac-2);color:var(--ink)}
+#view-home{counter-reset:sec}
+.sec-head .eyebrow{counter-increment:sec;gap:0}
+.sec-head .eyebrow::before{content:counter(sec,decimal-leading-zero);width:auto;height:auto;font:500 12px var(--mono);letter-spacing:.04em;color:var(--gold);background:linear-gradient(var(--gold),var(--gold)) right 10px center/22px 1px no-repeat;padding-right:44px}
+.sec-head .h2{max-width:20ch}
+.sec-head .lead{max-width:58ch}
+.rc .q-line{line-height:1.45}
+.btn svg{transition:transform .25s}
+.btn:hover svg{transform:translateX(3px)}
+.step .n,.kpi b,.k b,.mono,code{font-variant-numeric:tabular-nums}
+a{text-underline-offset:.18em;text-decoration-thickness:1px}
+header.top.scrolled{border-bottom-color:transparent;box-shadow:0 1px 0 rgba(60,45,130,.07),0 10px 30px -24px rgba(70,50,160,.35)}
+@media (max-width:520px){
+  .brand{gap:9px}.brand svg{width:30px;height:30px}
+  .brand b{font-size:23px;letter-spacing:.06em}
+  .brand small{font-size:9.5px;letter-spacing:.13em}
+  .right{gap:8px}.lang button{padding:7px 10px}
+}
+@media (max-width:360px){.brand small{display:none}}
+
+.hero h1 em{font-style:italic;background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#45358F;letter-spacing:-.01em;padding-right:.04em}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .draw{stroke-dashoffset:0}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="brand" href="#inicio" id="brand-link" aria-label="VALEN Research &amp; Analytics">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#6C58C7"/><stop offset="1" stop-color="#C9C0F0"/></linearGradient></defs><circle cx="20" cy="20" r="19" fill="#fff" stroke="#E7E2F4"/><path d="M8 27 C 14 26, 15 16, 21 17 S 28 11, 32 10" fill="none" stroke="url(#lg)" stroke-width="2.2" stroke-linecap="round"/><circle cx="21" cy="17" r="2.4" fill="#6C58C7"/><circle cx="32" cy="10" r="1.8" fill="#B8955A"/><circle cx="8" cy="27" r="1.6" fill="#C9C0F0"/></svg>
+        <span><b>VALEN</b><small>Research &amp; Analytics</small></span>
+      </a>
+      <nav class="main" aria-label="Secciones">
+        <button data-go="quienes"><span data-l="es">Quiénes somos</span><span data-l="en">About</span></button>
+        <button data-go="investigacion"><span data-l="es">Investigación</span><span data-l="en">Research</span></button>
+        <button data-go="metodologia"><span data-l="es">Metodología</span><span data-l="en">Methodology</span></button>
+        <button data-go="datos"><span data-l="es">Datos y privacidad</span><span data-l="en">Data &amp; privacy</span></button>
+        <button data-go="contacto"><span data-l="es">Contacto</span><span data-l="en">Contact</span></button>
+      </nav>
+      <div class="right">
+        <div class="lang" role="group" aria-label="Idioma / Language">
+          <button id="btn-es" lang="es" aria-pressed="true">ES</button>
+          <button id="btn-en" lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-nav" aria-label="Menú / Menu"><span></span></button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobile-nav" hidden>
+      <button data-go="quienes"><span data-l="es">Quiénes somos</span><span data-l="en">About</span></button>
+      <button data-go="investigacion"><span data-l="es">Investigación</span><span data-l="en">Research</span></button>
+      <button data-go="metodologia"><span data-l="es">Metodología</span><span data-l="en">Methodology</span></button>
+      <button data-go="datos"><span data-l="es">Datos y privacidad</span><span data-l="en">Data &amp; privacy</span></button>
+      <button data-go="contacto"><span data-l="es">Contacto</span><span data-l="en">Contact</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="view-home">
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="wrap hero-grid">
+      <div class="copy">
+        <span class="eyebrow"><span data-l="es">Investigación y análisis del ecosistema de YouTube</span><span data-l="en">Research and analysis of the YouTube ecosystem</span></span>
+        <h1><span data-l="es">Comprender a las <em>audiencias</em> para crear contenido que valga la pena ver</span><span data-l="en">Understanding <em>audiences</em> to create content worth watching</span></h1>
+        <p class="lead"><span data-l="es">Estudiamos tendencias, mercados y el comportamiento de las audiencias para descubrir oportunidades de contenido original y de valor. Una iniciativa independiente de investigación, desarrollada en Colombia.</span><span data-l="en">We study trends, markets and audience behavior to discover opportunities for original, valuable content. An independent research initiative developed in Colombia.</span></p>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" data-go="investigacion"><span data-l="es">Descubre qué investigamos</span><span data-l="en">Explore our research</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+          <button class="btn btn-ghost" data-go="metodologia"><span data-l="es">Metodología y transparencia</span><span data-l="en">Methodology &amp; transparency</span></button>
+        </div>
+        <div class="hero-facts">
+          <span class="chip"><i></i><span data-l="es">Investigación independiente</span><span data-l="en">Independent research</span></span>
+          <span class="chip"><i></i><span data-l="es">Solo información pública</span><span data-l="en">Public information only</span></span>
+          <span class="chip"><i></i><span data-l="es">9 idiomas</span><span data-l="en">9 languages</span></span>
+        </div>
+      </div>
+      <div class="stage" aria-label="Demostración visual">
+        <div class="iso" aria-hidden="true">
+          <div class="plane">
+            <div class="isc rail"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="isc kpi k1"><span class="kd"></span><b><span data-l="es">Tendencias</span><span data-l="en">Trends</span></b><small><span data-l="es">y audiencias</span><span data-l="en">and audiences</span></small></div>
+            <div class="isc kpi k2"><span class="kd"></span><b><span data-l="es">9 idiomas</span><span data-l="en">9 languages</span></b><small>ES · EN · PT · FR · DE · HI · ID · JA · KO</small></div>
+            <div class="isc kpi k3"><span class="kd"></span><b><span data-l="es">Datos públicos</span><span data-l="en">Public data</span></b><small><span data-l="es">sin cuentas ni datos privados</span><span data-l="en">no accounts, no private data</span></small></div>
+            <div class="isc bars-card"><b><span data-l="es">Formatos</span><span data-l="en">Formats</span></b><div class="vb"><i style="--h:55%"></i><i style="--h:82%"></i><i style="--h:46%"></i><i style="--h:70%"></i><i style="--h:60%"></i><i style="--h:90%"></i></div></div>
+            <div class="isc funnel-card"><b><span data-l="es">Ruta de investigación</span><span data-l="en">Research path</span></b>
+              <svg viewBox="0 0 300 110" preserveAspectRatio="none"><defs><linearGradient id="fg" x1="0" x2="1"><stop offset="0" stop-color="#6C58C7"/><stop offset="1" stop-color="#C9C0F0"/></linearGradient></defs><path d="M0 8 C 90 14, 200 38, 300 46 L300 64 C 200 72, 90 96, 0 102 Z" fill="url(#fg)" opacity=".9"/><g stroke="#fff" stroke-opacity=".7"><line x1="75" y1="0" x2="75" y2="110"/><line x1="150" y1="0" x2="150" y2="110"/><line x1="225" y1="0" x2="225" y2="110"/></g></svg>
+              <div class="fl"><span data-l="es">Descubrir</span><span data-l="en">Discover</span><span data-l="es">Consultar</span><span data-l="en">Look up</span><span data-l="es">Medir</span><span data-l="en">Measure</span><span data-l="es">Informe</span><span data-l="en">Report</span></div></div>
+          </div>
+        </div>
+        <div class="panel panel-main">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title"><span data-l="es">Cómo leemos una tendencia</span><span data-l="en">How we read a trend</span></div>
+              <div class="panel-sub"><span data-l="es">Ilustración</span><span data-l="en">Illustration</span></div>
+            </div>
+            <div class="seg" role="group" aria-label="Demostración">
+              <button data-demo="0" aria-pressed="true"><span data-l="es">Temas</span><span data-l="en">Topics</span></button>
+              <button data-demo="1" aria-pressed="false"><span data-l="es">Idiomas</span><span data-l="en">Languages</span></button>
+              <button data-demo="2" aria-pressed="false"><span data-l="es">Formatos</span><span data-l="en">Formats</span></button>
+            </div>
+          </div>
+          <div class="chart">
+            <svg viewBox="0 0 520 260" preserveAspectRatio="none" role="img" aria-label="Gráfico ilustrativo sin datos reales">
+              <defs>
+                <linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E7FD8" stop-opacity=".32"/><stop offset="1" stop-color="#8E7FD8" stop-opacity="0"/></linearGradient>
+              </defs>
+              <g stroke="#EEEAF8" stroke-width="1">
+                <line x1="0" y1="52" x2="520" y2="52"/><line x1="0" y1="104" x2="520" y2="104"/><line x1="0" y1="156" x2="520" y2="156"/><line x1="0" y1="208" x2="520" y2="208"/>
+              </g>
+              <g id="bars" fill="#E4DEFA"></g>
+              <path id="a1" fill="url(#area)" d=""/>
+              <path id="l2" class="draw" fill="none" stroke="#C9C0F0" stroke-width="2" stroke-linecap="round" d=""/>
+              <path id="l1" class="draw" fill="none" stroke="#6C58C7" stroke-width="2.6" stroke-linecap="round" d=""/>
+              <g id="pts"></g>
+            </svg>
+          </div>
+          <div class="demo-tag"><span data-l="es">Demostración visual · no son datos reales</span><span data-l="en">Visual demonstration · not real data</span></div>
+        </div>
+        <div class="float f2">
+          <div class="ring" aria-hidden="true"></div>
+          <div><b><span data-l="es">Hoja privada</span><span data-l="en">Private sheet</span></b><span><span data-l="es">Sin venta ni cesión de datos</span><span data-l="en">Data never sold or shared</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30 SECONDS -->
+  <section class="band" id="quienes">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="es">VALEN en 30 segundos</span><span data-l="en">VALEN in 30 seconds</span></span>
+        <h2 class="h2"><span data-l="es">Investigar con respeto para <em>crear con criterio</em></span><span data-l="en">Research with respect, <em>create with judgment</em></span></h2>
+      </div>
+      <div class="quick">
+        <article class="q"><span class="k"><span data-l="es">Quiénes somos</span><span data-l="en">Who we are</span></span><h3><span data-l="es">Una iniciativa independiente</span><span data-l="en">An independent initiative</span></h3><p><span data-l="es">Proyecto de investigación desarrollado en Colombia, en desarrollo y sin clientes ni usuarios externos.</span><span data-l="en">A research project developed in Colombia, still in development, with no clients or external users.</span></p></article>
+        <article class="q"><span class="k"><span data-l="es">Qué investigamos</span><span data-l="en">What we research</span></span><h3><span data-l="es">Tendencias, formatos y mercados</span><span data-l="en">Trends, formats and markets</span></h3><p><span data-l="es">Información pública de canales y videos de YouTube en nueve idiomas.</span><span data-l="en">Public information about YouTube channels and videos in nine languages.</span></p></article>
+        <article class="q"><span class="k"><span data-l="es">Por qué</span><span data-l="en">Why</span></span><h3><span data-l="es">Para aprender, nunca para copiar</span><span data-l="en">To learn, never to copy</span></h3><p><span data-l="es">Un video que conecta responde a algo real: una curiosidad, una necesidad, una forma de entretenerse o de aprender.</span><span data-l="en">A video that connects answers something real: curiosity, a need, a way to be entertained or to learn.</span></p></article>
+        <article class="q"><span class="k"><span data-l="es">Qué valor aporta</span><span data-l="en">The value</span></span><h3><span data-l="es">Mejores decisiones antes de crear</span><span data-l="en">Better decisions before we create</span></h3><p><span data-l="es">Contenido original, relevante y de valor para quien lo ve, respetando el trabajo de los creadores que estudiamos.</span><span data-l="en">Original, relevant and valuable content for viewers, respecting the work of the creators we study.</span></p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="band alt" id="investigacion">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="es">Qué investigamos</span><span data-l="en">What we research</span></span>
+        <h2 class="h2"><span data-l="es">Seis preguntas que <em>guían</em> nuestra investigación</span><span data-l="en">Six questions that <em>guide</em> our research</span></h2>
+        <p class="lead"><span data-l="es">Toca cada tarjeta para ver qué estudiamos.</span><span data-l="en">Tap each card to see what we study.</span></p>
+      </div>
+      <div class="cards" id="cards">
+        <article class="rc"><button class="t" aria-expanded="false"><span class="glyph"><svg viewBox="0 0 28 28" fill="none" stroke="#6C58C7" stroke-width="1.6" stroke-linecap="round"><path d="M3 21l6-7 5 4 9-11"/><circle cx="23" cy="7" r="1.6" fill="#B8955A" stroke="none"/></svg></span><span><h3><span data-l="es">Tendencias</span><span data-l="en">Trends</span></h3><span class="q-line"><span data-l="es">¿Qué está captando atención?</span><span data-l="en">What is drawing attention?</span></span></span><span class="plus" aria-hidden="true"></span></button><div class="more"><div><p><span data-l="es">Qué temas y formatos aparecen entre los videos populares de distintos países.</span><span data-l="en">Which topics and formats appear among popular videos in different countries.</span></p></div></div></article>
+        <article class="rc"><button class="t" aria-expanded="false"><span class="glyph"><svg viewBox="0 0 28 28" fill="none" stroke="#6C58C7" stroke-width="1.6"><circle cx="14" cy="14" r="10"/><path d="M4 14h20M14 4c3 3 4 6.5 4 10s-1 7-4 10c-3-3-4-6.5-4-10s1-7 4-10z"/></svg></span><span><h3><span data-l="es">Mercados e idiomas</span><span data-l="en">Markets and languages</span></h3><span class="q-line"><span data-l="es">¿Cómo cambia entre culturas?</span><span data-l="en">How does it change across cultures?</span></span></span><span class="plus" aria-hidden="true"></span></button><div class="more"><div><p><span data-l="es">Cómo cambia el contenido entre nueve idiomas.</span><span data-l="en">How content differs across nine languages.</span></p><div class="tags"><em data-l="es">español</em><em data-l="es">inglés</em><em data-l="es">portugués</em><em data-l="es">francés</em><em data-l="es">alemán</em><em data-l="es">hindi</em><em data-l="es">indonesio</em><em data-l="es">japonés</em><em data-l="es">coreano</em><em data-l="en">Spanish</em><em data-l="en">English</em><em data-l="en">Portuguese</em><em data-l="en">French</em><em data-l="en">German</em><em data-l="en">Hindi</em><em data-l="en">Indonesian</em><em data-l="en">Japanese</em><em data-l="en">Korean</em></div></div></div></article>
+        <article class="rc"><button class="t" aria-expanded="false"><span class="glyph"><svg viewBox="0 0 28 28" fill="none" stroke="#6C58C7" stroke-width="1.6"><rect x="4" y="7" width="20" height="14" rx="3"/><path d="M12 11l5 3-5 3z" fill="#C9C0F0"/></svg></span><span><h3><span data-l="es">Canales</span><span data-l="en">Channels</span></h3><span class="q-line"><span data-l="es">¿Quién crece y quién se mantiene?</span><span data-l="en">Who grows and who endures?</span></span></span><span class="plus" aria-hidden="true"></span></button><div class="more"><div><p><span data-l="es">Qué canales nuevos o pequeños están ganando audiencia y cuáles se mantienen en el tiempo.</span><span data-l="en">Which new or small channels are gaining an audience and which ones remain stable over time.</span></p></div></div></article>
+        <article class="rc"><button class="t" aria-expanded="false"><span class="glyph"><svg viewBox="0 0 28 28" fill="none" stroke="#6C58C7" stroke-width="1.6" stroke-linecap="round"><path d="M5 22V12M11 22V6M17 22v-8M23 22V9"/></svg></span><span><h3><span data-l="es">Videos</span><span data-l="en">Videos</span></h3><span class="q-line"><span data-l="es">¿Qué forma tiene lo que funciona?</span><span data-l="en">What shape does it take?</span></span></span><span class="plus" aria-hidden="true"></span></button><div class="more"><div><p><span data-l="es">Duración, formato y temática de los videos de más de tres minutos que publican esos canales.</span><span data-l="en">Length, format and subject of the videos longer than three minutes that those channels publish.</span></p></div></div></article>
+        <article class="rc"><button class="t" aria-expanded="false"><span class="glyph"><svg viewBox="0 0 28 28" fill="none" stroke="#6C58C7" stroke-width="1.6"><path d="M14 4l2.4 6.6L23 13l-6.6 2.4L14 22l-2.4-6.6L5 13l6.6-2.4z"/><circle cx="22" cy="22" r="1.6" fill="#B8955A" stroke="none"/></svg></span><span><h3><span data-l="es">Innovación y tendencias digitales</span><span data-l="en">Innovation and digital trends</span></h3><span class="q-line"><span data-l="es">¿Cómo evoluciona la creatividad en el entorno digital?</span><span data-l="en">How is creativity evolving in the digital world?</span></span></span><span class="plus" aria-hidden="true"></span></button><div class="more"><div><p><span data-l="es">Exploramos nuevas formas de comunicación, tendencias emergentes y oportunidades para desarrollar contenido original que aporte valor a las audiencias.</span><span data-l="en">We explore new forms of communication, emerging trends and opportunities to create original content that brings real value to audiences.</span></p></div></div></article>
+        <article class="rc"><button class="t" aria-expanded="false"><span class="glyph"><svg viewBox="0 0 28 28" fill="none" stroke="#6C58C7" stroke-width="1.6"><circle cx="12" cy="12" r="7"/><path d="M17.5 17.5L23 23" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#C9C0F0" stroke="none"/></svg></span><span><h3><span data-l="es">Oportunidades temáticas</span><span data-l="en">Topic opportunities</span></h3><span class="q-line"><span data-l="es">¿Qué falta en español?</span><span data-l="en">What is missing in Spanish?</span></span></span><span class="plus" aria-hidden="true"></span></button><div class="more"><div><p><span data-l="es">Temas con interés del público que todavía tienen poca oferta en español.</span><span data-l="en">Topics with audience interest that still have little content available in Spanish.</span></p></div></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section class="band" id="metodologia">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="es">Nuestra metodología</span><span data-l="en">Our methodology</span></span>
+        <h2 class="h2"><span data-l="es">Cómo usamos la <em>API oficial</em> de YouTube</span><span data-l="en">How we use the <em>official</em> YouTube API</span></h2>
+      </div>
+      <div class="api-note">
+        <span class="dot"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 2l6 3v5c0 4-2.6 6.6-6 8-3.4-1.4-6-4-6-8V5z"/><path d="M7 10l2 2 4-4" stroke-linecap="round"/></svg></span>
+        <p><span data-l="es">La herramienta usa los <strong>YouTube API Services</strong>, concretamente la <strong>YouTube Data API v3</strong>. Solo consulta información pública. No accede a cuentas de usuarios, no usa inicio de sesión de terceros y no recoge datos privados de nadie.</span><span data-l="en">The tool uses <strong>YouTube API Services</strong>, specifically the <strong>YouTube Data API v3</strong>. It only requests public information. It does not access user accounts, does not use third-party sign-in and does not collect anyone's private data.</span></p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3><span data-l="es">Descubrimiento</span><span data-l="en">Discovery</span></h3><p><span data-l="es">Busca videos públicos en nueve idiomas y revisa las listas de videos populares de varios países.</span><span data-l="en">Searches for public videos in nine languages and reviews the popular video charts of several countries.</span></p><span class="freq"><span data-l="es">Cada semana</span><span data-l="en">Weekly</span></span></div>
+        <div class="step"><div class="n">2</div><h3><span data-l="es">Consulta</span><span data-l="en">Lookup</span></h3><p><span data-l="es">Lee los datos públicos de los canales encontrados y de sus videos recientes.</span><span data-l="en">Reads public data about the channels found and their recent videos.</span></p><span class="freq"><span data-l="es">Tras cada descubrimiento</span><span data-l="en">After each discovery</span></span></div>
+        <div class="step"><div class="n">3</div><h3><span data-l="es">Medición</span><span data-l="en">Measurement</span></h3><p><span data-l="es">Registra las estadísticas públicas de los canales y videos que seguimos.</span><span data-l="en">Records the public statistics of the channels and videos we follow.</span></p><span class="freq"><span data-l="es">Una vez al día</span><span data-l="en">Once a day</span></span></div>
+        <div class="step"><div class="n">4</div><h3><span data-l="es">Informe privado</span><span data-l="en">Private report</span></h3><p><span data-l="es">La responsable del proyecto recibe por correo resúmenes privados, base de nuestras decisiones de producción.</span><span data-l="en">The project owner receives private summaries by email, the basis of our production decisions.</span></p><span class="freq"><span data-l="es">Por correo</span><span data-l="en">By email</span></span></div>
+      </div>
+      <div class="acc">
+        <details class="ac"><summary><span data-l="es">Métodos de la API que usamos</span><span data-l="en">API methods we use</span></summary><div class="body">
+          <ul class="methods">
+            <li><code>search.list</code><span><span data-l="es">Buscar videos públicos en nueve idiomas.</span><span data-l="en">Search for public videos in nine languages.</span></span></li>
+            <li><code>videos.list</code><span><span data-l="es">Datos públicos de videos y listas de videos populares por país.</span><span data-l="en">Public video data and popular video charts by country.</span></span></li>
+            <li><code>channels.list</code><span><span data-l="es">Datos públicos de los canales encontrados.</span><span data-l="en">Public data about the channels found.</span></span></li>
+            <li><code>playlistItems.list</code><span><span data-l="es">Videos recientes de esos canales.</span><span data-l="en">Recent videos from those channels.</span></span></li>
+            <li><code>channelSections.list</code><span><span data-l="es">Canales que el propio canal recomienda.</span><span data-l="en">Channels the channel itself features.</span></span></li>
+          </ul>
+        </div></details>
+        <details class="ac"><summary><span data-l="es">Qué datos públicos se consultan</span><span data-l="en">Which public data we request</span></summary><div class="body">
+          <div class="fields">
+            <div class="fb"><h4><span data-l="es">Videos</span><span data-l="en">Videos</span></h4>
+              <ul data-l="es"><li>identificador</li><li>título</li><li>descripción</li><li>fecha de publicación</li><li>duración</li><li>categoría</li><li>idioma</li><li>vistas</li><li>número de me gusta</li><li>número de comentarios</li></ul>
+              <ul data-l="en"><li>ID</li><li>title</li><li>description</li><li>publication date</li><li>duration</li><li>category</li><li>language</li><li>view count</li><li>like count</li><li>comment count</li></ul></div>
+            <div class="fb"><h4><span data-l="es">Canales</span><span data-l="en">Channels</span></h4>
+              <ul data-l="es"><li>identificador</li><li>nombre</li><li>descripción</li><li>país</li><li>fecha de creación</li><li>suscriptores</li><li>vistas totales</li><li>número de videos</li><li>temas asignados por YouTube</li><li>canales que el propio canal recomienda</li></ul>
+              <ul data-l="en"><li>ID</li><li>name</li><li>description</li><li>country</li><li>creation date</li><li>subscriber count</li><li>total views</li><li>video count</li><li>topics assigned by YouTube</li><li>channels the channel itself features</li></ul></div>
+          </div>
+        </div></details>
+        <details class="ac"><summary><span data-l="es">Dónde se guardan y quién accede</span><span data-l="en">Where data is stored and who can access it</span></summary><div class="body">
+          <p><span data-l="es">En una Hoja de Google privada, en la cuenta de Google del proyecto, accesible solo para su responsable.</span><span data-l="en">In a private Google Sheet in the project's Google account, accessible only to the project owner.</span></p>
+          <p><span data-l="es">No tiene página pública, ni usuarios externos, ni clientes. Los datos no se venden, no se publican y no se comparten con terceros.</span><span data-l="en">It has no public interface, no external users and no clients. The data is not sold, published or shared with third parties.</span></p>
+        </div></details>
+        <details class="ac"><summary><span data-l="es">Lo que no hacemos</span><span data-l="en">What we don't do</span></summary><div class="body">
+          <p><span data-l="es">No descargamos videos, no copiamos contenido, no estimamos los ingresos de ningún canal, no leemos el texto de los comentarios y no recogemos datos de espectadores.</span><span data-l="en">We do not download videos, copy content, estimate any channel's revenue, read the text of comments or collect viewer data.</span></p>
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATUS -->
+  <section class="band alt" id="estado">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="es">Estado del proyecto</span><span data-l="en">Project status</span></span>
+        <h2 class="h2"><span data-l="es">Qué hace hoy y qué <em>depende de una autorización</em></span><span data-l="en">What it does today and what <em>depends on authorization</em></span></h2>
+      </div>
+      <div class="status">
+        <div class="st"><span class="pill p-ok"><i></i><span data-l="es">En uso hoy · versión 3.3</span><span data-l="en">In use today · version 3.3</span></span>
+          <ul>
+            <li><span data-l="es">Descubre cada día videos y canales públicos y consulta sus estadísticas públicas.</span><span data-l="en">Discovers public videos and channels every day and retrieves their public statistics.</span></li>
+            <li><span data-l="es">Borra automáticamente las estadísticas y los textos de YouTube de más de 29 días y renueva a diario los datos de los canales que seguimos.</span><span data-l="en">Automatically deletes YouTube statistics and text older than 29 days and refreshes the data of the channels we follow every day.</span></li>
+            <li><span data-l="es">No calcula indicadores propios ni compara canales: muestra los datos tal como los entrega YouTube.</span><span data-l="en">Does not calculate its own indicators or compare channels: it shows the data as YouTube provides it.</span></li>
+          </ul></div>
+        <div class="st"><span class="pill p-prep"><i></i><span data-l="es">Control y transparencia</span><span data-l="en">Control and transparency</span></span>
+          <ul>
+            <li><span data-l="es">La versión anterior, que conservaba historial y calculaba indicadores, está detenida desde el 15 de noviembre de 2026 y sus datos se eliminarán antes del 10 de diciembre de 2026.</span><span data-l="en">The previous version, which kept history and calculated indicators, has been stopped since November 15, 2026, and its data will be deleted before December 10, 2026.</span></li>
+            <li><span data-l="es">Límites diarios de consumo por debajo de la cuota asignada por YouTube.</span><span data-l="en">Daily usage limits below the quota assigned by YouTube.</span></li>
+            <li><span data-l="es">Lista de canales excluidos: si un creador pide que borremos sus datos, se borran y no se vuelven a recoger.</span><span data-l="en">A list of excluded channels: if a creator asks us to delete their data, it is deleted and not collected again.</span></li>
+          </ul></div>
+        <div class="st"><span class="pill p-auth"><i></i><span data-l="es">Solo con autorización de YouTube</span><span data-l="en">Only with YouTube's authorization</span></span>
+          <ul>
+            <li><span data-l="es">Métricas derivadas, como crecimiento medido entre fechas o puntuación de nichos.</span><span data-l="en">Derived metrics, such as growth measured between dates or niche scores.</span></li>
+            <li><span data-l="es">Comparaciones y clasificaciones entre canales de distintos dueños.</span><span data-l="en">Comparisons and rankings across channels owned by different creators.</span></li>
+            <li><span data-l="es">Conservar estadísticas más de 30 días para estudiar su evolución.</span><span data-l="en">Keeping statistics for more than 30 days to study how they change.</span></li>
+          </ul></div>
+      </div>
+      <p class="policy-note"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="8"/><path d="M10 9v5M10 6.2v.1" stroke-linecap="round"/></svg><span><span data-l="es">Las políticas para desarrolladores de YouTube limitan la conservación de estadísticas a 30 días y no permiten crear métricas derivadas sin una autorización expresa. Todavía no tenemos esa autorización y no damos por hecho que se conceda.</span><span data-l="en">The YouTube Developer Policies limit the storage of statistics to 30 days and do not allow derived metrics without explicit authorization. We do not have that authorization yet and do not assume it will be granted.</span></span></p>
+    </div>
+  </section>
+
+  <!-- DATA & PRIVACY -->
+  <section class="band" id="datos">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="es">Datos y privacidad</span><span data-l="en">Data &amp; privacy</span></span>
+        <h2 class="h2"><span data-l="es">Cómo <em>protegemos</em> y gestionamos los datos</span><span data-l="en">How we <em>protect</em> and manage data</span></h2>
+      </div>
+      <div class="priv">
+        <div class="pgrid">
+          <div class="pc"><span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M2.5 10h15"/></svg></span><h3><span data-l="es">Solo información pública</span><span data-l="en">Public information only</span></h3><p><span data-l="es">Sin datos privados, sin cuentas de YouTube y sin datos de espectadores.</span><span data-l="en">No private data, no YouTube accounts and no viewer data.</span></p></div>
+          <div class="pc"><span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="9" width="12" height="8" rx="2"/><path d="M7 9V6.5a3 3 0 016 0V9"/></svg></span><h3><span data-l="es">Hoja privada</span><span data-l="en">Private sheet</span></h3><p><span data-l="es">Los datos no salen de la cuenta del proyecto. Solo accede su responsable.</span><span data-l="en">Data does not leave the project's account. Only the owner has access.</span></p></div>
+          <div class="pc"><span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M5 15L15 5"/></svg></span><h3><span data-l="es">Nunca se venden</span><span data-l="en">Never sold</span></h3><p><span data-l="es">No se publican ni se comparten con terceros.</span><span data-l="en">Not published or shared with third parties.</span></p></div>
+          <div class="pc"><span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M10 5.5V10l3 2" stroke-linecap="round"/></svg></span><h3><span data-l="es">Conservación</span><span data-l="en">Retention</span></h3><p><span data-l="es">Las estadísticas y los textos de YouTube se borran automáticamente a los 29 días.</span><span data-l="en">YouTube statistics and text are deleted automatically after 29 days.</span></p></div>
+        </div>
+        <div class="del">
+          <span class="eyebrow"><span data-l="es">Para creadores</span><span data-l="en">For creators</span></span>
+          <h3><span data-l="es">Pide que borremos los datos de tu canal</span><span data-l="en">Ask us to delete your channel's data</span></h3>
+          <ol>
+            <li><span data-l="es">Escríbenos al correo de contacto con la dirección (URL) de tu canal.</span><span data-l="en">Write to our contact address with your channel's address (URL).</span></li>
+            <li><span data-l="es">Borramos sus datos lo antes posible y en un máximo de 7 días, también de nuestros informes internos.</span><span data-l="en">We delete its data as soon as possible and within 7 days at most, including from our internal reports.</span></li>
+            <li><span data-l="es">Te lo confirmamos por correo. Hoy se hace a mano; la actualización preparada lo hará automáticamente.</span><span data-l="en">We confirm by email. Today this is done manually; the prepared update will do it automatically.</span></li>
+          </ol>
+          <div class="links">
+            <a class="btn btn-primary" data-l="es" href="#privacidad">Política de privacidad</a>
+            <a class="btn btn-ghost" data-l="es" href="#condiciones">Condiciones de uso</a>
+            <a class="btn btn-primary" data-l="en" href="#en-privacy">Privacy Policy</a>
+            <a class="btn btn-ghost" data-l="en" href="#en-terms">Terms of Use</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMITMENT -->
+  <section class="band alt" id="compromiso">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="es">Nuestro compromiso</span><span data-l="en">Our commitment</span></span>
+        <h2 class="h2"><span data-l="es">Lo que nos comprometemos a <em>cumplir</em></span><span data-l="en">What we <em>commit</em> to</span></h2>
+      </div>
+      <div class="commit">
+        <div class="cm"><h3><span data-l="es">Transparencia</span><span data-l="en">Transparency</span></h3><p><span data-l="es">Describimos lo que la herramienta hace hoy y separamos lo que todavía está pendiente. Si algo cambia, actualizamos esta página.</span><span data-l="en">We describe what the tool does today and separate what is still pending. If anything changes, we update this page.</span></p></div>
+        <div class="cm"><h3><span data-l="es">Protección de datos</span><span data-l="en">Data protection</span></h3><p><span data-l="es">Solo usamos información pública, en una hoja privada que no sale de la cuenta del proyecto.</span><span data-l="en">We only use public information, in a private sheet that does not leave the project's account.</span></p></div>
+        <div class="cm"><h3><span data-l="es">Respeto por los creadores</span><span data-l="en">Respect for creators</span></h3><p><span data-l="es">No descargamos videos, no copiamos contenido y no estimamos ingresos. Un creador puede pedir que borremos sus datos.</span><span data-l="en">We do not download videos, copy content or estimate revenue. A creator can ask us to delete their data.</span></p></div>
+        <div class="cm"><h3><span data-l="es">Cumplimiento</span><span data-l="en">Compliance</span></h3><p><span data-l="es">Ajustamos la herramienta a las políticas de YouTube API Services y pedimos autorización antes de usar funciones que la requieran.</span><span data-l="en">We are adapting the tool to the YouTube API Services policies and request authorization before using any feature that requires it.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT + CONTACT -->
+  <section class="band" id="contacto">
+    <div class="wrap ac2">
+      <div class="about" id="sobre">
+        <span class="eyebrow"><span data-l="es">Sobre el proyecto</span><span data-l="en">About the project</span></span>
+        <h2 class="h2"><span data-l="es">Una iniciativa independiente, <em>en desarrollo</em></span><span data-l="en">An independent initiative, <em>in development</em></span></h2>
+        <p><span data-l="es">VALEN Research &amp; Analytics es una iniciativa independiente de investigación desarrollada en Colombia. No es una empresa constituida y no ofrece servicios a terceros.</span><span data-l="en">VALEN Research &amp; Analytics is an independent research initiative developed in Colombia. It is not an incorporated company and does not offer services to third parties.</span></p>
+        <p><span data-l="es">Hoy la herramienta tiene una sola usuaria, la responsable del proyecto, y se usa para investigaciones internas y para orientar nuestros propios proyectos de contenido digital.</span><span data-l="en">Today the tool has a single user, the project owner, and it is used for internal research and to guide our own digital content projects.</span></p>
+        <p class="fine"><span data-l="es">VALEN Research &amp; Analytics no está afiliado, patrocinado ni respaldado por YouTube ni por Google.</span><span data-l="en">VALEN Research &amp; Analytics is not affiliated with, sponsored by or endorsed by YouTube or Google.</span></p>
+      </div>
+      <div class="contact">
+        <span class="eyebrow"><span data-l="es">Contacto</span><span data-l="en">Contact</span></span>
+        <h3><span data-l="es">Escríbenos</span><span data-l="en">Get in touch</span></h3>
+        <p><span data-l="es">Para preguntas sobre el proyecto, sobre los datos o para pedir que borremos la información de un canal.</span><span data-l="en">For questions about the project or the data, or to ask us to delete a channel's information.</span></p>
+        <div class="mail"><i></i><span class="addr" id="addr">valenresearch.analytics@gmail.com</span></div>
+        <div class="mail-actions"><a class="btn btn-primary" href="mailto:valenresearch.analytics@gmail.com"><span data-l="es">Escribir un correo</span><span data-l="en">Write an email</span></a><button class="btn btn-ghost" id="copy-mail" type="button"><span class="cp-label"><span data-l="es">Copiar dirección</span><span data-l="en">Copy address</span></span><span class="cp-done" hidden><span data-l="es">Dirección copiada</span><span data-l="en">Address copied</span></span></button></div>
+        <p><span data-l="es">Respondemos en un plazo máximo de 7 días. Si eres responsable de un canal, incluye la dirección (URL) de tu canal.</span><span data-l="en">We reply within 7 days. If you manage a channel, please include your channel's address (URL).</span></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- PRIVACY -->
+<main id="view-privacy" class="legal" hidden>
+  <div class="wrap legal-grid">
+    <aside class="toc" aria-label="Índice">
+      <button data-to="p1"><span data-l="es">1. YouTube API Services</span><span data-l="en">1. YouTube API Services</span></button>
+      <button data-to="p2"><span data-l="es">2. Qué información usamos</span><span data-l="en">2. Information we use</span></button>
+      <button data-to="p3"><span data-l="es">3. Para qué la usamos</span><span data-l="en">3. Why we use it</span></button>
+      <button data-to="p4"><span data-l="es">4. Dónde se guarda</span><span data-l="en">4. Where it is stored</span></button>
+      <button data-to="p5"><span data-l="es">5. Conservación</span><span data-l="en">5. Retention</span></button>
+      <button data-to="p6"><span data-l="es">6. Solicitudes de borrado</span><span data-l="en">6. Deletion requests</span></button>
+      <button data-to="p7"><span data-l="es">7. Visitantes</span><span data-l="en">7. Visitors</span></button>
+      <button data-to="p8"><span data-l="es">8. Contacto</span><span data-l="en">8. Contact</span></button>
+    </aside>
+    <div>
+      <a class="back" data-l="es" href="#inicio">← Volver al inicio</a><a class="back" data-l="en" href="#en">← Back to home</a>
+      <span class="eyebrow">VALEN Research &amp; Analytics</span>
+      <h1><span data-l="es">Política de privacidad</span><span data-l="en">Privacy Policy</span></h1>
+      <p class="updated"><span data-l="es">ÚLTIMA ACTUALIZACIÓN: 16 DE NOVIEMBRE DE 2026</span><span data-l="en">LAST UPDATED: 16 NOVEMBER 2026</span></p>
+      <p class="lead" style="margin-top:14px"><span data-l="es">Esta política explica qué información usa VALEN Research &amp; Analytics, para qué la usa y cómo se gestiona.</span><span data-l="en">This policy explains what information VALEN Research &amp; Analytics uses, why it uses it and how it is handled.</span></p>
+      <div class="lsec" id="p1"><h2><span>01</span><span data-l="es">Uso de YouTube API Services</span><span data-l="en">Use of YouTube API Services</span></h2><p><span data-l="es">Nuestra herramienta usa los YouTube API Services para consultar información pública de canales y videos de YouTube. Al usar esos servicios aplica también la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Google</a>. El uso de YouTube está sujeto a los <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Términos de Servicio de YouTube</a>.</span><span data-l="en">Our tool uses YouTube API Services to request public information about YouTube channels and videos. The <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> also applies to the use of those services. Use of YouTube is subject to the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a>.</span></p></div>
+      <div class="lsec" id="p2"><h2><span>02</span><span data-l="es">Qué información usamos</span><span data-l="en">Information we use</span></h2>
+        <ul data-l="es"><li><strong>Datos públicos de videos:</strong> identificador, título, descripción, fecha, duración, categoría, idioma, vistas, número de me gusta y número de comentarios.</li><li><strong>Datos públicos de canales:</strong> identificador, nombre, descripción, país, fecha de creación, suscriptores, vistas totales, número de videos, temas asignados por YouTube y canales recomendados por el propio canal.</li><li>No usamos datos privados, no accedemos a cuentas de YouTube, no leemos el texto de los comentarios y no recogemos datos de espectadores.</li></ul>
+        <ul data-l="en"><li><strong>Public video data:</strong> ID, title, description, date, duration, category, language, view count, like count and comment count.</li><li><strong>Public channel data:</strong> ID, name, description, country, creation date, subscriber count, total views, video count, topics assigned by YouTube and channels featured by the channel itself.</li><li>We do not use private data, do not access YouTube accounts, do not read the text of comments and do not collect viewer data.</li></ul></div>
+      <div class="lsec" id="p3"><h2><span>03</span><span data-l="es">Para qué la usamos</span><span data-l="en">Why we use it</span></h2><p><span data-l="es">Solo para investigación interna: entender tendencias y formatos y orientar nuestros propios proyectos de contenido.</span><span data-l="en">Only for internal research: to understand trends and formats and to guide our own content projects.</span></p></div>
+      <div class="lsec" id="p4"><h2><span>04</span><span data-l="es">Dónde se guarda y con quién se comparte</span><span data-l="en">Where it is stored and who it is shared with</span></h2><p><span data-l="es">La información se guarda en una Hoja de Google privada, en la cuenta de Google del proyecto, a la que solo accede su responsable. No la vendemos, no la publicamos y no la compartimos con terceros.</span><span data-l="en">The information is stored in a private Google Sheet in the project's Google account, accessible only to the project owner. We do not sell, publish or share it with third parties.</span></p></div>
+      <div class="lsec" id="p5"><h2><span>05</span><span data-l="es">Cuánto tiempo se conserva</span><span data-l="en">How long it is kept</span></h2><p><span data-l="es">La versión en uso borra automáticamente las estadísticas y los textos de YouTube de más de 29 días y renueva a diario los datos de los canales que seguimos; si un canal no puede renovarse durante 29 días, su registro se elimina. Los datos guardados por la versión anterior, detenida el 15 de noviembre de 2026, se eliminarán antes del 10 de diciembre de 2026. Si algún día YouTube autoriza otro plazo, actualizaremos esta sección antes de aplicarlo.</span><span data-l="en">The version in use automatically deletes YouTube statistics and text older than 29 days and refreshes the data of the channels we follow every day; if a channel cannot be refreshed for 29 days, its record is deleted. Data stored by the previous version, stopped on November 15, 2026, will be deleted before December 10, 2026. If YouTube ever authorizes a different period, we will update this section before applying it.</span></p></div>
+      <div class="lsec" id="p6"><h2><span>06</span><span data-l="es">Solicitudes de borrado</span><span data-l="en">Deletion requests</span></h2><p><span data-l="es">Si eres responsable de un canal y quieres que borremos sus datos, escríbenos a <a href="mailto:valenresearch.analytics@gmail.com">valenresearch.analytics@gmail.com</a> con la dirección (URL) de tu canal. Los borraremos lo antes posible y en un máximo de 7 días, también de nuestros informes internos, y te lo confirmaremos por correo. Hoy este borrado se hace a mano; la actualización preparada lo hará automáticamente y evitará que esos datos vuelvan a recogerse. Borrar los datos de nuestra hoja no afecta a lo que YouTube guarda.</span><span data-l="en">If you manage a channel and want us to delete its data, write to <a href="mailto:valenresearch.analytics@gmail.com">valenresearch.analytics@gmail.com</a> with your channel's address (URL). We will delete it as soon as possible and within 7 days at most, including from our internal reports, and confirm by email. Today this deletion is done manually; the prepared update will do it automatically and prevent that data from being collected again. Deleting data from our sheet does not affect the data stored by YouTube.</span></p></div>
+      <div class="lsec" id="p7"><h2><span>07</span><span data-l="es">Visitantes de esta página</span><span data-l="en">Visitors to this site</span></h2><p><span data-l="es">Esta página es informativa. No tiene formularios, publicidad ni herramientas de analítica añadidas por nosotros. La página está alojada en GitHub Pages (servicio de GitHub, Inc.), que registra la dirección IP de los visitantes por motivos de seguridad, según la <a href="https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Declaración de privacidad de GitHub</a>. No usamos cookies, y las fuentes tipográficas se cargan desde la propia página, sin servicios externos. Si nos escribes, solo usamos tu correo para responderte.</span><span data-l="en">This site is informational. We have not added forms, advertising or analytics tools. This site is hosted on GitHub Pages (a service of GitHub, Inc.), which logs visitors' IP addresses for security purposes, as described in the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub General Privacy Statement</a>. We do not use cookies, and fonts are served from this site itself, with no external services. If you write to us, we only use your email address to reply.</span></p></div>
+      <div class="lsec" id="p8"><h2><span>08</span><span data-l="es">Contacto</span><span data-l="en">Contact</span></h2><p><span data-l="es">Para cualquier pregunta sobre privacidad: <strong><a href="mailto:valenresearch.analytics@gmail.com">valenresearch.analytics@gmail.com</a></strong>.</span><span data-l="en">For any privacy question: <strong><a href="mailto:valenresearch.analytics@gmail.com">valenresearch.analytics@gmail.com</a></strong>.</span></p></div>
+    </div>
+  </div>
+</main>
+
+<!-- TERMS -->
+<main id="view-terms" class="legal" hidden>
+  <div class="wrap legal-grid">
+    <aside class="toc" aria-label="Índice">
+      <button data-to="t1"><span data-l="es">1. Qué es este sitio</span><span data-l="en">1. About this site</span></button>
+      <button data-to="t2">2. YouTube</button>
+      <button data-to="t3"><span data-l="es">3. Sin afiliación</span><span data-l="en">3. No affiliation</span></button>
+      <button data-to="t4"><span data-l="es">4. Contenido del sitio</span><span data-l="en">4. Site content</span></button>
+      <button data-to="t5"><span data-l="es">5. Contacto</span><span data-l="en">5. Contact</span></button>
+    </aside>
+    <div>
+      <a class="back" data-l="es" href="#inicio">← Volver al inicio</a><a class="back" data-l="en" href="#en">← Back to home</a>
+      <span class="eyebrow">VALEN Research &amp; Analytics</span>
+      <h1><span data-l="es">Condiciones de uso</span><span data-l="en">Terms of Use</span></h1>
+      <p class="updated"><span data-l="es">ÚLTIMA ACTUALIZACIÓN: 16 DE NOVIEMBRE DE 2026</span><span data-l="en">LAST UPDATED: 16 NOVEMBER 2026</span></p>
+      <div class="lsec" id="t1"><h2><span>01</span><span data-l="es">Qué es este sitio</span><span data-l="en">About this site</span></h2><p><span data-l="es">Este sitio presenta el proyecto VALEN Research &amp; Analytics. Es solo informativo. La herramienta de investigación es privada y no está disponible para el público.</span><span data-l="en">This site presents the VALEN Research &amp; Analytics project. It is for information only. The research tool is private and not available to the public.</span></p></div>
+      <div class="lsec" id="t2"><h2><span>02</span>YouTube</h2><p><span data-l="es">Nuestra herramienta usa los YouTube API Services. Su uso está sujeto a los <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Términos de Servicio de YouTube</a> y a la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Google</a>. Si en el futuro alguien más usa la herramienta, deberá aceptar los Términos de Servicio de YouTube.</span><span data-l="en">Our tool uses YouTube API Services. Its use is subject to the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a> and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>. If anyone else uses the tool in the future, they will have to agree to the YouTube Terms of Service.</span></p></div>
+      <div class="lsec" id="t3"><h2><span>03</span><span data-l="es">Sin afiliación</span><span data-l="en">No affiliation</span></h2><p><span data-l="es">YouTube y Google son marcas de Google LLC. VALEN Research &amp; Analytics no está afiliado, patrocinado ni respaldado por YouTube ni por Google.</span><span data-l="en">YouTube and Google are trademarks of Google LLC. VALEN Research &amp; Analytics is not affiliated with, sponsored by or endorsed by YouTube or Google.</span></p></div>
+      <div class="lsec" id="t4"><h2><span>04</span><span data-l="es">Contenido del sitio</span><span data-l="en">Site content</span></h2><p><span data-l="es">Los textos de este sitio describen un proyecto en desarrollo y pueden cambiar. No ofrecemos garantías sobre resultados ni hacemos promesas de ingresos.</span><span data-l="en">The texts on this site describe a project in development and may change. We make no guarantees about results and no promises of income.</span></p></div>
+      <div class="lsec" id="t5"><h2><span>05</span><span data-l="es">Contacto</span><span data-l="en">Contact</span></h2><p><span data-l="es">Para cualquier pregunta sobre este sitio o el proyecto: </span><span data-l="en">For any question about this site or the project: </span><strong><a href="mailto:valenresearch.analytics@gmail.com">valenresearch.analytics@gmail.com</a></strong></p></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#inicio" aria-label="VALEN Research &amp; Analytics"><span><b>VALEN</b><small>Research &amp; Analytics</small></span></a>
+      <p style="margin-top:14px"><span data-l="es">Iniciativa independiente de investigación desarrollada en Colombia. Usa YouTube API Services. No está afiliado, patrocinado ni respaldado por YouTube ni por Google.</span><span data-l="en">Independent research initiative developed in Colombia. Uses YouTube API Services. Not affiliated with, sponsored by or endorsed by YouTube or Google.</span></p>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li data-l="es"><a href="#privacidad">Política de privacidad</a></li>
+        <li data-l="es"><a href="#condiciones">Condiciones de uso</a></li>
+        <li data-l="en"><a href="#en-privacy">Privacy Policy</a></li>
+        <li data-l="en"><a href="#en-terms">Terms of Use</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4><span data-l="es">Enlaces oficiales</span><span data-l="en">Official links</span></h4>
+      <ul>
+        <li><a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener"><span data-l="es">Términos de Servicio de YouTube</span><span data-l="en">YouTube Terms of Service</span></a></li>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener"><span data-l="es">Política de Privacidad de Google</span><span data-l="en">Google Privacy Policy</span></a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var ROUTES={'':['home','es'],'inicio':['home','es'],'en':['home','en'],'privacidad':['privacy','es'],'en-privacy':['privacy','en'],'condiciones':['terms','es'],'en-terms':['terms','en']};
+  var HASH={home:{es:'inicio',en:'en'},privacy:{es:'privacidad',en:'en-privacy'},terms:{es:'condiciones',en:'en-terms'}};
+  var current='home', lang='es';
+  var views={home:document.getElementById('view-home'),privacy:document.getElementById('view-privacy'),terms:document.getElementById('view-terms')};
+  function setLang(l){
+    lang=l; document.documentElement.lang=l;
+    document.getElementById('btn-es').setAttribute('aria-pressed',l==='es');
+    document.getElementById('btn-en').setAttribute('aria-pressed',l==='en');
+    document.querySelectorAll('.brand').forEach(function(a){a.setAttribute('href','#'+HASH.home[l]);});
+  }
+  function route(){
+    var h=(location.hash||'').slice(1), r=ROUTES[h];
+    if(!r){ return; }
+    var changedView=r[0]!==current;
+    current=r[0]; setLang(r[1]);
+    Object.keys(views).forEach(function(k){views[k].hidden=(k!==current);});
+    if(changedView || h==='inicio' || h==='en'){ window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'}); }
+  }
+  document.getElementById('btn-es').addEventListener('click',function(){ location.hash=HASH[current].es; });
+  document.getElementById('btn-en').addEventListener('click',function(){ location.hash=HASH[current].en; });
+  window.addEventListener('hashchange',route);
+  setLang('es'); route();
+
+  // section navigation
+  var mnav=document.getElementById('mobile-nav'), mbtn=document.getElementById('menu-btn');
+  function go(id){
+    function scroll(){ var el=document.getElementById(id); if(!el) return; var y=el.getBoundingClientRect().top+window.scrollY-76; window.scrollTo({top:y,behavior:'smooth'}); }
+    mnav.hidden=true; mbtn.setAttribute('aria-expanded','false');
+    if(current!=='home'){ location.hash=HASH.home[lang]; setTimeout(scroll,60); } else scroll();
+  }
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ go(b.getAttribute('data-go')); }); });
+  mbtn.addEventListener('click',function(){ var open=mnav.hidden; mnav.hidden=!open; mbtn.setAttribute('aria-expanded',String(open)); });
+  document.querySelectorAll('[data-to]').forEach(function(b){ b.addEventListener('click',function(){ var el=document.getElementById(b.getAttribute('data-to')); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+
+  // gentle reveal (content is visible at rest)
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.sec-head,.q,.rc,.step,.st,.pc,.del,.cm,.about,.contact,.api-note').forEach(function(el){ el.classList.add('rv'); io.observe(el); });
+  }
+  // copy email
+  var cb=document.getElementById('copy-mail');
+  if(cb){ cb.addEventListener('click',function(){
+    var t=document.getElementById('addr').textContent;
+    function done(){ cb.querySelector('.cp-label').hidden=true; cb.querySelector('.cp-done').hidden=false; setTimeout(function(){ cb.querySelector('.cp-label').hidden=false; cb.querySelector('.cp-done').hidden=true; },2200); }
+    function fallback(){ var r=document.createRange(); r.selectNodeContents(document.getElementById('addr')); var sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+    try{ navigator.clipboard.writeText(t).then(done,fallback); }catch(e){ fallback(); }
+  }); }
+  // header shadow
+  var hdr=document.getElementById('top');
+  window.addEventListener('scroll',function(){ hdr.classList.toggle('scrolled',window.scrollY>8); },{passive:true});
+
+  // research cards
+  document.querySelectorAll('.rc .t').forEach(function(b){
+    b.addEventListener('click',function(){ var card=b.closest('.rc'); var open=card.getAttribute('data-open')==='true'; card.setAttribute('data-open',String(!open)); b.setAttribute('aria-expanded',String(!open)); });
+  });
+
+  // illustrative chart (shapes only; no real data)
+  var SETS=[
+    {a:[200,188,192,170,160,150,128,118,96,84,70,58],b:[214,210,200,204,190,186,178,172,168,160,156,150]},
+    {a:[180,150,170,140,152,120,132,104,116,92,100,80],b:[160,172,150,164,142,150,136,144,128,134,122,126]},
+    {a:[150,160,140,130,138,118,110,116,96,90,82,74],b:[200,180,186,166,170,150,156,140,144,130,128,120]}
+  ];
+  var W=520,H=260,svgNS='http://www.w3.org/2000/svg';
+  function path(v){ var step=W/(v.length-1), d='M0 '+v[0]; for(var i=1;i<v.length;i++){ var x0=(i-1)*step,x1=i*step,mx=(x0+x1)/2; d+=' C'+mx+' '+v[i-1]+' '+mx+' '+v[i]+' '+x1+' '+v[i]; } return d; }
+  function draw(k,animate){
+    var s=SETS[k];
+    var l1=document.getElementById('l1'),l2=document.getElementById('l2');
+    l1.setAttribute('d',path(s.a)); l2.setAttribute('d',path(s.b));
+    document.getElementById('a1').setAttribute('d',path(s.a)+' L'+W+' '+H+' L0 '+H+' Z');
+    var bars=document.getElementById('bars'); bars.innerHTML='';
+    s.b.forEach(function(v,i){ if(i%1) return; var r=document.createElementNS(svgNS,'rect'); var x=i*(W/(s.b.length-1))-7; r.setAttribute('x',Math.max(0,x)); r.setAttribute('width',14); r.setAttribute('y',v+20); r.setAttribute('height',Math.max(0,H-v-20)); r.setAttribute('rx',4); r.setAttribute('opacity','.55'); bars.appendChild(r); });
+    var pts=document.getElementById('pts'); pts.innerHTML='';
+    [3,7,11].forEach(function(i){ var c=document.createElementNS(svgNS,'circle'); c.setAttribute('cx',Math.min(W-6,i*(W/(s.a.length-1)))); c.setAttribute('cy',s.a[i]); c.setAttribute('r',i===11?6:4.5); c.setAttribute('fill',i===11?'#6C58C7':'#fff'); c.setAttribute('stroke','#6C58C7'); c.setAttribute('stroke-width','2'); pts.appendChild(c); });
+    if(animate){ [l1,l2].forEach(function(p){ p.classList.remove('draw'); void p.getBBox(); p.classList.add('draw'); }); }
+  }
+  draw(0,false);
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-demo]').forEach(function(x){ x.setAttribute('aria-pressed',String(x===b)); });
+      draw(+b.getAttribute('data-demo'),true);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
